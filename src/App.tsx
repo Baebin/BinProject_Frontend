@@ -7,6 +7,7 @@ import Footer from "./components/common/Footer";
 import LoginPage from "./pages/account/LoginPage";
 import NotFound from "./components/exception/NotFound";
 import RegisterPage from "./pages/account/RegisterPage";
+import MyProfile from "./pages/account/MyProfile";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                         <Route path="/" element={<LandingPage />}></Route>
                         <Route path="/login" element={<LoginPage />}></Route>
                         <Route path="/register" element={<RegisterPage />}></Route>
+                        <Route path="/profile" element={<MyProfile />}></Route>
                         <Route path="*" element={<NotFound />}></Route>
                     </Route>
                 </Routes>
