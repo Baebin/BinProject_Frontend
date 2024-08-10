@@ -1,14 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function Header() {
     const [loginState, setLoginState] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!!token === null)
+        if (token !== null)
             setLoginState(true);
     });
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setLoginState(false);
+    }
 
     return (
         <div className="flex items-center justify-evenly w-full p-3 bg-blue-400 text-white">
@@ -24,18 +29,14 @@ function Header() {
                 {
                     loginState ?
                         (
-                            <div>
-                                <a href="#">
-                                    로그아웃
-                                </a>
-                            </div>
+                            <button onClick={logout}>
+                                로그아웃
+                            </button>
                         )
                         : (
-                            <div>
-                                <a href="/login">
-                                    로그인
-                                </a>
-                            </div>
+                            <a href="/login">
+                                로그인
+                            </a>
                         )
                 }
             </div>
