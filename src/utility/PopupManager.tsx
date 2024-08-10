@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import Swal, {SweetAlertInput} from "sweetalert2";
 import {colors} from "./ColorManager";
 
 class PopupManager {
@@ -26,6 +26,30 @@ class PopupManager {
         }).then(result => {
             if (result.isConfirmed)
                 onConfirmed();
+        });
+    }
+    showInput(title : string, text : string, input : SweetAlertInput, inputValue : any, inputPlaceholder : string, onConfirmed : Function, onDismissed : Function) : void {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'question',
+
+            input: input,
+            inputValue: inputValue,
+            inputPlaceholder: inputPlaceholder,
+
+            confirmButtonColor: colors["blue-400"],
+            confirmButtonText: "확인",
+
+            showCancelButton: true,
+            cancelButtonColor: colors["red-400"],
+            cancelButtonText: "취소",
+        }).then(result => {
+            if (result.isConfirmed)
+                onConfirmed(result.value);
+            else if (result.isDismissed) {
+                onDismissed(result.value);
+            }
         });
     }
 };

@@ -87,7 +87,7 @@ function RegisterPage() {
                         <label className="p-1">전화번호</label>
                         <input className="min-w-80 p-3 border-2 border-gray-200 rounded-2xl"
                                placeholder="01020040505"
-                               type="number"
+                               type="text"
                                onChange={(e) => {
                                    setPhone(e.target.value);
                                }}/>
