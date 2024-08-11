@@ -3,9 +3,12 @@ import {ErrorDto} from "../model/dto/ErrorDto";
 import {NavigateFunction} from "react-router-dom";
 import {popupManager} from "./PopupManager";
 
-const API_URL = "http://piebin.kro.kr:8080/api/";
+export const API_URL = "http://piebin.kro.kr:8080/api/";
 
 class ApiManager {
+    getURL(): string {
+        return API_URL;
+    }
     handleForbidden(dto : ErrorDto, navigate : NavigateFunction, title : string) : boolean {
         if (dto.httpStatus !== "FORBIDDEN")
             return false;
@@ -62,6 +65,38 @@ class ApiManager {
     }
     delete(api : string, data : any, resFunc : Function, errorFunc : Function) : void {
         this.connect("delete", api, null, data, resFunc, errorFunc);
+    }
+
+    putFormData(api : string, file : any, data : any, resFunc : Function, errorFunc : Function) : void {
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        axios.put(
+            API_URL + api,
+            formData,
+            {
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "multipart/form-data",
+                }
+            }
+        ).then((res) => {
+            console.log(res.data);
+            console.log(res);
+            resFunc(res);
+        }).catch((error) => {
+            console.log(error.response?.data);
+            console.log(error);
+
+            errorFunc(
+                new ErrorDto(
+                    error.response?.data?.http_status,
+                    error.response?.data?.message
+                )
+            );
+        });
     }
 }
 
