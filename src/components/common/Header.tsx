@@ -44,7 +44,7 @@ function Header() {
                 <img className="w-16 h-16 rounded-full" src="/images/logo.jpg" alt="logo"/>
             </Link>
             <div className="flex gap-x-4 text-lg font-semibold">
-                <a href="#" className="hover:text-yellow-200">공지사항</a>
+                <a href="/notice" className="hover:text-yellow-200">공지사항</a>
                 <a href="#" className="hover:text-yellow-200">게시판</a>
                 <a href="#" className="hover:text-yellow-200">기타</a>
             </div>

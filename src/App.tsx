@@ -8,6 +8,8 @@ import LoginPage from "./pages/account/LoginPage";
 import NotFound from "./components/exception/NotFound";
 import RegisterPage from "./pages/account/RegisterPage";
 import MyProfile from "./pages/account/MyProfile";
+import NoticePage from "./pages/notice/NoticePage";
+import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 
 function App() {
     return (
@@ -17,9 +19,15 @@ function App() {
                 <Routes>
                     <Route>
                         <Route path="/" element={<LandingPage />}></Route>
+
                         <Route path="/login" element={<LoginPage />}></Route>
                         <Route path="/register" element={<RegisterPage />}></Route>
+
                         <Route path="/profile" element={<MyProfile />}></Route>
+
+                        <Route path="/notice" element={<NoticePage />}></Route>
+                        <Route path="/notice/:idx" element={<NoticeDetailPage />}></Route>
+
                         <Route path="*" element={<NotFound />}></Route>
                     </Route>
                 </Routes>

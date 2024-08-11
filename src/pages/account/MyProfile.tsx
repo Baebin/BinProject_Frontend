@@ -164,10 +164,10 @@ function MyProfile() {
     }
 
     return (
-        <div className="p-2">
+        <div className="p-4">
             <div
                 className="flex flex-col items-center p-4 gap-y-2 border-2 border-gray-300 rounded-xl text-xl text-center">
-                <img className="w-40 h-40 rounded-full cursor-pointer hover:opacity-80"
+                <img className="w-40 h-40 rounded-full cursor-pointer hover:shadow-xl"
                      src={profile}
                      alt="logo" onClick={editImage}
                      onError={(e) => {
@@ -182,45 +182,59 @@ function MyProfile() {
                         서비스 가입일 | {regDate}
                     </p>
                 </div>
-                <div className="w-full flex bg-white rounded-2xl">
-                    <p className="w-24 px-6 py-2 bg-neutral-100 rounded-l-2xl">
-                        아이디
-                    </p>
+                <div className="w-full flex bg-white rounded-2xl hover:shadow-md">
+                    <div className="px-6 py-2 bg-neutral-100 rounded-l-2xl">
+                        <p className="w-12">
+                            아이디
+                        </p>
+                    </div>
                     <p className="grow px-6 py-2 break-all bg-neutral-50 rounded-r-2xl text-left">
                         {id}
                     </p>
                 </div>
-                <div className="w-full flex bg-white rounded-2xl">
-                    <p className="w-24 px-6 py-2 bg-neutral-100 rounded-l-2xl">
-                        닉네임
-                    </p>
-                    <p className="grow px-6 py-2 break-all bg-neutral-50 text-left">
+                <div className="w-full flex bg-white rounded-2xl hover:shadow-md">
+                    <div className="flex items-center px-6 py-2 bg-neutral-100 rounded-l-2xl">
+                        <p className="w-12">
+                            닉네임
+                        </p>
+                    </div>
+                    <p className="flex items-center grow px-6 py-1 break-all bg-neutral-50 text-left">
                         {name}
                     </p>
-                    <button className="min-w-fit px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editName}>
-                        edit
+                    <button className="flex items-center px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editName}>
+                        <p className="min-w-fit">
+                            edit
+                        </p>
                     </button>
                 </div>
-                <div className="w-full flex bg-white rounded-2xl">
-                    <p className="w-24 px-6 py-2 bg-neutral-100 rounded-l-2xl">
-                        휴대폰
-                    </p>
-                    <p className="grow px-6 py-2 break-all bg-neutral-50 text-left">
+                <div className="w-full flex bg-white rounded-2xl hover:shadow-md">
+                    <div className="flex items-center px-6 py-2 bg-neutral-100 rounded-l-2xl">
+                        <p className="w-12">
+                            휴대폰
+                        </p>
+                    </div>
+                    <p className="flex items-center grow px-6 py-1 break-all bg-neutral-50 text-left">
                         {phone}
                     </p>
-                    <button className="min-w-fit px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editPhone}>
-                        edit
+                    <button className="flex items-center px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editPhone}>
+                        <p className="min-w-fit">
+                            edit
+                        </p>
                     </button>
                 </div>
-                <div className="w-full flex bg-white rounded-2xl">
-                    <p className="w-24 px-6 py-2 bg-neutral-100 rounded-l-2xl">
-                        이메일
-                    </p>
-                    <p className="grow px-6 py-1 break-all bg-neutral-50 text-left">
+                <div className="w-full flex bg-white rounded-2xl hover:shadow-md">
+                    <div className="flex items-center px-6 py-2 bg-neutral-100 rounded-l-2xl">
+                        <p className="w-12">
+                            이메일
+                        </p>
+                    </div>
+                    <p className="flex items-center grow px-6 py-1 break-all bg-neutral-50 text-left">
                         {email}
                     </p>
-                    <button className="min-w-fit px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editEmail}>
-                        edit
+                    <button className="flex items-center px-3 py-2 bg-neutral-100 rounded-r-2xl" onClick={editEmail}>
+                        <p className="min-w-fit">
+                            edit
+                        </p>
                     </button>
                 </div>
             </div>
