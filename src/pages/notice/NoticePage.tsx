@@ -1,12 +1,19 @@
-import React from "react";
-import {images} from "../../utility/ImageManager";
+import React, {useEffect, useState} from "react";
+import {imageManager, images} from "../../utility/ImageManager";
+import {apiManager} from "../../utility/ApiManager";
+import {ErrorDto} from "../../model/dto/ErrorDto";
 
 function NoticePage() {
-    const renderPost = (idx : any, title : string, author : string, regDate : string) => {
+    const [posts, setPosts] = useState<any>([]);
+
+    const renderPost = (idx : any, logo: any, title : string, author : string, regDate : string) => {
         return (
             <a href={`/notice/${idx}`} className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl">
                 <img className="w-full h-full"
-                     src={images.logo}
+                     src={logo}
+                     onError={(e : any) => {
+                         e.target.src = images.imageNotFound;
+                     }}
                 />
                 <p className="text-2xl mt-2 pb-1 border-b truncate">
                     {title}
@@ -23,18 +30,61 @@ function NoticePage() {
         );
     }
 
-    const models = [];
-    for (let i = 0; i < 13; i++)
-        models.push(renderPost(
-            i,
-            "빈댕이가 빈댕빈댕 빈댕이가 빈댕빈댕",
-            "유빈콩",
-            "2004.05.05 12:00"
-        ));
+    /*
+    for (let i = 0; i < 15; i++) {
+        if (i < 10) {
+            models.push(renderPost(
+                i,
+                images.logo,
+                "빈댕이가 빈댕빈댕 빈댕이가 빈댕빈댕",
+                "유빈콩",
+                "2004.05.05 12:00"
+            ));
+        } else {
+            models.push(renderPost(
+                i,
+                images.meunnYa,
+                "도르마므냥",
+                "유팽달",
+                "2003.04.06 12:00"
+            ));
+        }
+    }
+    */
+
+    useEffect(() => {
+        apiManager.get(
+            "notice/load/all",
+            {
+            },
+            (res : any) => {
+                console.log(res);
+
+                const models = [];
+                for (let idx in res.data) {
+                    let dto = res.data[idx];
+
+                    models.push(
+                        renderPost(
+                            dto.idx,
+                            imageManager.getNoticeThumbnailImage(dto.idx),
+                            dto.title,
+                            dto.author_name,
+                            dto.reg_date
+                        )
+                    );
+                    console.log(res.data[idx]);
+                }
+                setPosts(models);
+                console.log(models);
+            },
+            (error : ErrorDto) => {}
+        );
+    }, []);
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-            {models}
+            {posts}
         </div>
     );
 }
