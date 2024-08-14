@@ -11,7 +11,7 @@ function NoticePage() {
 
     const renderPost = (idx : any, logo: any, title : string, author : string, regDate : string) => {
         return (
-            <button className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl"
+            <button className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl" key={idx}
                     onClick={() => navigate(`/notice/${idx}`)}>
                 <img className="w-full h-full"
                      src={logo}

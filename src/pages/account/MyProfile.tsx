@@ -36,7 +36,7 @@ function MyProfile() {
                 setRegDate(res.data.reg_date);
             },
             (error : ErrorDto) => {
-                if (apiManager.handleForbidden(error, navigate, pageName))
+                if (apiManager.handleException(error, navigate, pageName))
                     return;
             }
         );
@@ -60,7 +60,7 @@ function MyProfile() {
                         );
                     },
                     (error: ErrorDto) => {
-                        if (apiManager.handleForbidden(error, navigate, pageName))
+                        if (apiManager.handleException(error, navigate, pageName))
                             return;
                     }
                 );
@@ -75,7 +75,7 @@ function MyProfile() {
                         );
                     },
                     (error: ErrorDto) => {
-                        if (apiManager.handleForbidden(error, navigate, pageName))
+                        if (apiManager.handleException(error, navigate, pageName))
                             return;
                     }
                 );
@@ -101,7 +101,7 @@ function MyProfile() {
                         setName(value);
                     },
                     (error: ErrorDto) => {
-                        if (apiManager.handleForbidden(error, navigate, pageName))
+                        if (apiManager.handleException(error, navigate, pageName))
                             return;
                     }
                 );
@@ -127,7 +127,7 @@ function MyProfile() {
                         setPhone(value);
                     },
                     (error: ErrorDto) => {
-                        if (apiManager.handleForbidden(error, navigate, pageName))
+                        if (apiManager.handleException(error, navigate, pageName))
                             return;
                     }
                 );
@@ -153,7 +153,7 @@ function MyProfile() {
                         setEmail(value);
                     },
                     (error: ErrorDto) => {
-                        if (apiManager.handleForbidden(error, navigate, pageName))
+                        if (apiManager.handleException(error, navigate, pageName))
                             return;
                     }
                 );

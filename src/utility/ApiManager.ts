@@ -2,6 +2,7 @@ import axios from "axios";
 import {ErrorDto} from "../model/dto/ErrorDto";
 import {NavigateFunction} from "react-router-dom";
 import {popupManager} from "./PopupManager";
+import {permissionManager} from "./PermissionManager";
 
 export const API_URL = "http://piebin.kro.kr:8080/api/";
 
@@ -9,21 +10,27 @@ class ApiManager {
     getURL(): string {
         return API_URL;
     }
-    handleForbidden(dto : ErrorDto, navigate : NavigateFunction, title : string) : boolean {
-        if (dto.httpStatus !== "FORBIDDEN")
-            return false;
-        localStorage.removeItem("token");
-        popupManager.showBadConfirm(
-            title,
-            "로그인이 필요합니다.",
-            () => {
-                navigate("/login");
+    handleException(dto : ErrorDto, navigate : NavigateFunction, title : string) : boolean {
+        // Forbidden
+        if (dto.status === 403) {
+            permissionManager.handleForbidden(navigate, title);
+            return true;
+        }
+        else if (dto.httpStatus === "UNAUTHORIZED") {
+            localStorage.removeItem("token");
+            popupManager.showBadConfirm(
+                title,
+                "로그인이 필요합니다.",
+                () => {
+                    navigate("/login");
 
-                // for Header Refresh
-                window.location.reload();
-            }
-        );
-        return true;
+                    // for Header Refresh
+                    window.location.reload();
+                }
+            );
+            return true;
+        }
+        return false;
     }
     connect(method : string, api : string, params : any, data : any, resFunc : Function, errorFunc : Function) : void {
         const token = localStorage.getItem("token");
@@ -46,7 +53,8 @@ class ApiManager {
             errorFunc(
                 new ErrorDto(
                     error.response?.data?.http_status,
-                    error.response?.data?.message
+                    error.request.status,
+                    error.response?.data?.message,
                 )
             );
         });
@@ -67,11 +75,17 @@ class ApiManager {
         this.connect("delete", api, null, data, resFunc, errorFunc);
     }
 
-    putFormData(api : string, file : any, data : any, resFunc : Function, errorFunc : Function) : void {
+    putFormData(api : string, file : any | any[], data : any, resFunc : Function, errorFunc : Function) : void {
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
-        formData.append("file", file);
+        if (Array.isArray(file)) {
+            let files : any[] = file;
+            for (var f of files)
+                formData.append("file", f);
+        } else formData.append("file", file);
+        if (data !== null)
+            formData.append("dto", new Blob([JSON.stringify(data)], { type: 'application/json' }));
 
         axios.put(
             API_URL + api,
@@ -93,7 +107,8 @@ class ApiManager {
             errorFunc(
                 new ErrorDto(
                     error.response?.data?.http_status,
-                    error.response?.data?.message
+                    error.request.status,
+                    error.response?.data?.message,
                 )
             );
         });

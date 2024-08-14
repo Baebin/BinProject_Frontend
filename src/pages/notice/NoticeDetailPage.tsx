@@ -1,8 +1,10 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {imageManager, images} from "../../utility/ImageManager";
 import React, {useEffect, useState} from "react";
 import {apiManager} from "../../utility/ApiManager";
 import {ErrorDto} from "../../model/dto/ErrorDto";
+import Slider from "react-slick";
+import {accountManager} from "../../utility/AccountManager";
 
 function NoticeDetailPage() {
     const {idx} = useParams();
@@ -12,6 +14,11 @@ function NoticeDetailPage() {
     const [authorIdx, setAuthorIdx] = useState<string | null>(null);
     const [authorName, setAuthorName] = useState<string | null>(null);
     const [regDate, setRegDate] = useState<string | null>(null);
+
+    const [files, setFiles] = useState<number | null>(null);
+    const [imgUrls, setImgUrls] = useState<string[]>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         apiManager.get(
@@ -27,10 +34,26 @@ function NoticeDetailPage() {
                 setAuthorName(dto.author_name);
                 setRegDate(dto.reg_date);
 
+                setFiles(dto.files);
+
+                const urls : string[] = [];
+                for (let i = 0; i < dto.files; i++)
+                    urls.push(imageManager.getNoticeImage(dto.idx, i));
+                setImgUrls(urls);
             },
             (error : ErrorDto) => {}
         );
     }, []);
+
+    const settings = {
+        arrows: false,
+        dots: true,
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true,
+        variableWidth: true,
+    };
 
     return (
         <div className="w-screen max-w-[700px] p-4">
@@ -38,13 +61,22 @@ function NoticeDetailPage() {
                 <p className="text-xl">
                     [공지]
                 </p>
-                <p className="text-2xl mb-4">
-                    {title}
-                </p>
+                <div className="flex justify-between items-center mb-4">
+                    <p className="text-2xl">
+                        {title}
+                    </p>
+                    {
+                        accountManager.isAdmin() &&
+                        <button className="border-2 border-gray-200 px-2 rounded-full hover:opacity-80"
+                                onClick={() => navigate(`/notice/edit/${idx}`)}>
+                            게시글 수정
+                        </button>
+                    }
+                </div>
                 <div className="flex items-center gap-x-2 text-lg">
                     <img className="w-8 h-8 rounded-full"
                          src={imageManager.getProfile(authorIdx)}
-                         onError={(e : any) => {
+                         onError={(e: any) => {
                              e.target.src = images.profileNotFound;
                          }}
                     />
@@ -52,9 +84,25 @@ function NoticeDetailPage() {
                     <p className="text-gray-400">{regDate}</p>
                 </div>
             </div>
-            <p className="mt-4 whitespace-pre-wrap">
-                {text}
-            </p>
+            <div>
+                <p className="mt-4 whitespace-pre-wrap">
+                    {text}
+                </p>
+            </div>
+            {
+                imgUrls.length > 0 &&
+                <div className="border-t mt-20 pt-4">
+                    <Slider {...settings} className="w-60 h-60 mt-4 mb-5">
+                        {
+                            imgUrls.map((url: any, idx: any) =>
+                                <div key={idx}>
+                                    <img className="top-0 w-60 h-60" src={url}/>
+                                </div>
+                            )
+                        }
+                    </Slider>
+                </div>
+            }
         </div>
     );
 }

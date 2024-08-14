@@ -13,7 +13,9 @@ function Header() {
     });
 
     const logout = () => {
+        localStorage.removeItem("idx");
         localStorage.removeItem("token");
+        localStorage.removeItem("permission");
         setLoginState(false);
     }
 

@@ -10,6 +10,7 @@ import RegisterPage from "./pages/account/RegisterPage";
 import MyProfile from "./pages/account/MyProfile";
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
+import NoticeEditPage from "./pages/notice/NoticeEditPage";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
 
                         <Route path="/notice" element={<NoticePage />}></Route>
                         <Route path="/notice/:idx" element={<NoticeDetailPage />}></Route>
+                        <Route path="/notice/edit/:idx" element={<NoticeEditPage />}></Route>
 
                         <Route path="*" element={<NotFound />}></Route>
                     </Route>

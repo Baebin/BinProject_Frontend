@@ -28,6 +28,25 @@ class PopupManager {
                 onConfirmed();
         });
     }
+    showAsk(title : string, text : string, onConfirmed : Function, onDismissed : Function) : void {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'question',
+
+            confirmButtonColor: colors["blue-400"],
+            confirmButtonText: "확인",
+
+            showCancelButton: true,
+            cancelButtonColor: colors["red-400"],
+            cancelButtonText: "취소",
+        }).then(result => {
+            if (result.isConfirmed)
+                onConfirmed();
+            else if (result.isDismissed)
+                onDismissed();
+        });
+    }
     showInput(title : string, text : string, input : SweetAlertInput, inputValue : any, inputPlaceholder : string, onConfirmed : Function, onDismissed : Function) : void {
         Swal.fire({
             title: title,

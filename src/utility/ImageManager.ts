@@ -7,6 +7,9 @@ class ImageManager {
     getNoticeThumbnailImage(idx : any) : string {
         return `${apiManager.getURL()}notice/load/image/thumbnail/${idx}`;
     }
+    getNoticeImage(idx : any, fileIdx : any) : string {
+        return `${apiManager.getURL()}notice/load/image/${idx}/${fileIdx}`;
+    }
 }
 
 export const images = {

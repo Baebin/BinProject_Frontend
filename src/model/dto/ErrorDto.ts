@@ -6,6 +6,7 @@ interface IErrorDto {
 export class ErrorDto implements IErrorDto {
     constructor(
         public httpStatus: string,
-        public message: string
+        public status: number,
+        public message: string,
     ) {}
 }

@@ -18,7 +18,9 @@ function LoginPage() {
                 "password": pw,
             },
             (res : any) => {
+                localStorage.setItem("idx", res.data.idx);
                 localStorage.setItem("token", res.data.token);
+                localStorage.setItem("permission", res.data.permission);
                 popupManager.showOkayConfirm(
                     "로그인",
                     "인증되었습니다.",
