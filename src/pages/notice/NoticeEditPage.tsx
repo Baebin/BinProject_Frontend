@@ -140,9 +140,9 @@ function NoticeDetailPage() {
     return (
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
-                <p className="text-xl">
+                <button className="text-xl hover:opacity-80" onClick={() => navigate("/notice")}>
                     [공지]
-                </p>
+                </button>
                 <div className="flex justify-between items-center mb-4">
                     <input className="grow mr-4 text-2xl" type="text" value={title ?? ""}
                            onChange={(e: any) => setTitle(e.target.value)}/>

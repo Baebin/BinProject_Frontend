@@ -11,18 +11,20 @@ function NoticePage() {
 
     const renderPost = (idx : any, logo: any, title : string, author : string, regDate : string) => {
         return (
-            <button className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl" key={idx}
-                    onClick={() => navigate(`/notice/${idx}`)}>
+            <button
+                className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl"
+                key={idx}
+                onClick={() => navigate(`/notice/${idx}`)}>
                 <img className="w-full h-full"
                      src={logo}
-                     onError={(e : any) => {
+                     onError={(e: any) => {
                          e.target.src = images.imageNotFound;
                      }}
                 />
-                <p className="text-2xl mt-2 pb-1 border-b truncate">
+                <p className="w-full mt-2 pb-1 border-b truncate text-2xl text-left">
                     {title}
                 </p>
-                <div className="flex justify-between">
+                <div className="w-full flex justify-between">
                     <p className="text-sm text-gray-400">
                         {author}
                     </p>

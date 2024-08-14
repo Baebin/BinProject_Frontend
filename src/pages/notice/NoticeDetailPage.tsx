@@ -58,9 +58,9 @@ function NoticeDetailPage() {
     return (
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
-                <p className="text-xl">
+                <button className="text-xl hover:opacity-80" onClick={() => navigate("/notice")}>
                     [공지]
-                </p>
+                </button>
                 <div className="flex justify-between items-center mb-4">
                     <p className="text-2xl">
                         {title}
@@ -74,13 +74,16 @@ function NoticeDetailPage() {
                     }
                 </div>
                 <div className="flex items-center gap-x-2 text-lg">
-                    <img className="w-8 h-8 rounded-full"
-                         src={imageManager.getProfile(authorIdx)}
-                         onError={(e: any) => {
-                             e.target.src = images.profileNotFound;
-                         }}
-                    />
-                    <p className="text-gray-500">{authorName}</p>
+                    <button className="flex items-center gap-x-2 hover:opacity-80"
+                            onClick={() => navigate(`/profile/${authorIdx}`)}>
+                        <img className="w-8 h-8 rounded-full"
+                             src={imageManager.getProfile(authorIdx)}
+                             onError={(e: any) => {
+                                 e.target.src = images.profileNotFound;
+                             }}
+                        />
+                        <p className="text-gray-500">{authorName}</p>
+                    </button>
                     <p className="text-gray-400">{regDate}</p>
                 </div>
             </div>

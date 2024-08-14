@@ -11,6 +11,7 @@ import MyProfile from "./pages/account/MyProfile";
 import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeEditPage from "./pages/notice/NoticeEditPage";
+import UserProfile from "./pages/account/UserProfile";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/register" element={<RegisterPage />}></Route>
 
                         <Route path="/profile" element={<MyProfile />}></Route>
+                        <Route path="/profile/:idx" element={<UserProfile />}></Route>
 
                         <Route path="/notice" element={<NoticePage />}></Route>
                         <Route path="/notice/:idx" element={<NoticeDetailPage />}></Route>
