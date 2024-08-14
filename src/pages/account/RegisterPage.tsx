@@ -105,8 +105,9 @@ function RegisterPage() {
                     회원가입
                 </button>
             </form>
-            <a href="/login" className="flex flex-1 justify-end px-2 py-1 text-gray-400 hover:text-gray-500">계정이 이미
-                있으신가요? 로그인하기</a>
+            <button className="flex flex-1 justify-end px-2 py-1 text-gray-400 hover:text-gray-500" onClick={() => navigate("/login")}>
+                계정이 이미 있으신가요? 로그인하기
+            </button>
         </div>
     );
 }

@@ -65,7 +65,9 @@ function LoginPage() {
                     로그인
                 </button>
             </form>
-            <a href="/register" className="flex flex-1 justify-end px-2 py-1 text-gray-400 hover:text-gray-500">계정이 없으신가요? 회원가입하기</a>
+            <button className="flex flex-1 justify-end px-2 py-1 text-gray-400 hover:text-gray-500" onClick={() => navigate("/register")}>
+                계정이 없으신가요? 회원가입하기
+            </button>
         </div>
     );
 }

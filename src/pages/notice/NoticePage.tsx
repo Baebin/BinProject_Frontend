@@ -2,13 +2,17 @@ import React, {useEffect, useState} from "react";
 import {imageManager, images} from "../../utility/ImageManager";
 import {apiManager} from "../../utility/ApiManager";
 import {ErrorDto} from "../../model/dto/ErrorDto";
+import {useNavigate} from "react-router-dom";
 
 function NoticePage() {
     const [posts, setPosts] = useState<any>([]);
 
+    const navigate = useNavigate();
+
     const renderPost = (idx : any, logo: any, title : string, author : string, regDate : string) => {
         return (
-            <a href={`/notice/${idx}`} className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl">
+            <button className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl"
+                    onClick={() => navigate(`/notice/${idx}`)}>
                 <img className="w-full h-full"
                      src={logo}
                      onError={(e : any) => {
@@ -26,7 +30,7 @@ function NoticePage() {
                         {regDate}
                     </p>
                 </div>
-            </a>
+            </button>
         );
     }
 
