@@ -46,7 +46,7 @@ function Header() {
             </Link>
             <div className="flex gap-x-4 text-lg font-semibold">
                 <button className="hover:text-yellow-200" onClick={() => navigate("/notice")}>공지사항</button>
-                <a href="#" className="hover:text-yellow-200">게시판</a>
+                <button className="hover:text-yellow-200" onClick={() => navigate("/post")}>게시판</button>
                 <a href="#" className="hover:text-yellow-200">기타</a>
             </div>
 

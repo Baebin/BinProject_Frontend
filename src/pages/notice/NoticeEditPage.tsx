@@ -11,8 +11,7 @@ import {popupManager} from "../../utility/PopupManager";
 import {accountManager} from "../../utility/AccountManager";
 import {permissionManager} from "../../utility/PermissionManager";
 
-
-function NoticeDetailPage() {
+function NoticeEditPage() {
     const pageName = "공지사항 수정";
 
     const {idx} = useParams();
@@ -221,4 +220,4 @@ function NoticeDetailPage() {
     );
 }
 
-export default NoticeDetailPage;
+export default NoticeEditPage;

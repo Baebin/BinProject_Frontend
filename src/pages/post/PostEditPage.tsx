@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {imageManager, images} from "../../utility/ImageManager";
 import React, {useEffect, useState} from "react";
 import {apiManager} from "../../utility/ApiManager";
@@ -11,85 +11,108 @@ import {popupManager} from "../../utility/PopupManager";
 import {accountManager} from "../../utility/AccountManager";
 import {permissionManager} from "../../utility/PermissionManager";
 
-function NoticeCreatePage() {
-    const pageName = "공지사항 등록";
+function PostEditPage() {
+    const pageName = "게시글 수정";
+
+    const {idx} = useParams();
 
     const [title, setTitle] = useState<string | null>(null);
     const [text, setText] = useState<string | null>(null);
     const [authorIdx, setAuthorIdx] = useState<string | null>(null);
     const [authorName, setAuthorName] = useState<string | null>(null);
+    const [regDate, setRegDate] = useState<string | null>(null);
 
     const [imgs, setImgs] = useState<any>([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        setAuthorIdx(accountManager.getIdx());
-        setAuthorName(accountManager.getName());
+        apiManager.get(
+            "post/load",
+            {
+                idx: idx,
+            },
+            async (res : any) => {
+                let dto = res.data;
+                setTitle(dto.title);
+                setText(dto.text);
+                setAuthorIdx(dto.author_idx);
+                setAuthorName(dto.author_name);
+                setRegDate(dto.reg_date);
 
-        if (accountManager.isUser())
-            permissionManager.handleForbidden(navigate, pageName);
+                if (!accountManager.equalsWithIdx(dto.author_idx))
+                    permissionManager.handleForbidden(navigate, pageName);
+
+                const imgs : any[] = [];
+                for (let i = 0; i < dto.files; i++) {
+                    let url = imageManager.getPostImage(dto.idx, i);
+                    const response = await fetch(url);
+                    const data = await response.blob();
+                    imgs.push(
+                        {
+                            url: url,
+                            file: new File([data], `${i}`, { type: `image/png` }),
+                        }
+                    );
+                }
+                setImgs(imgs);
+            },
+            (error : ErrorDto) => {}
+        );
     }, []);
 
-    const create = () => {
-        const files : any[] = [];
-        imgs.map((img: any, idx: any) => {
-            files.push(img.file);
-        });
-        if (files.length >= 1) {
-            apiManager.postFormData(
-                "notice/create/multipart",
-                files,
-                {
-                    title: title,
-                    text: text,
-                },
-                () => {
-                    popupManager.showOkayConfirm(
-                        pageName,
-                        "게시물이 등록되었습니다.",
-                        () => {
-                            navigate(`/notice`);
-                        }
+    const edit = () => {
+        apiManager.put(
+            "post/edit",
+            {
+                idx: idx,
+
+                title: title,
+                text: text,
+            },
+            (res : any) => {
+                const files : any[] = [];
+                imgs.map((img: any, idx: any) => {
+                    files.push(img.file);
+                });
+                if (files.length >= 1) {
+                    apiManager.putFormData(
+                        "post/edit/image/all",
+                        files,
+                        {
+                            idx: idx,
+                        },
+                        () => {},
+                        () => {},
                     );
-                },
-                (error : ErrorDto) => {
-                    if (apiManager.handleException(error, navigate, pageName))
-                        return;
-                    popupManager.showBadConfirm(
-                        pageName,
-                        error.message,
-                        () => {}
+                } else {
+                    apiManager.delete(
+                        "post/delete/image/all",
+                        {
+                            idx: idx,
+                        },
+                        () => {},
+                        () => {},
                     );
-                },
-            );
-        } else {
-            apiManager.post(
-                "notice/create",
-                {
-                    title: title,
-                    text: text,
-                },
-                () => {
-                    popupManager.showOkayConfirm(
-                        pageName,
-                        "게시물이 등록되었습니다.",
-                        () => {
-                            navigate(`/notice`);
-                        }
-                    );
-                },
-                (error : ErrorDto) => {
-                    if (apiManager.handleException(error, navigate, pageName))
-                        return;
-                    popupManager.showBadConfirm(
-                        pageName,
-                        error.message,
-                        () => {}
-                    );
-                },
-            );
-        }
+                }
+                popupManager.showOkayConfirm(
+                    pageName,
+                    "게시물이 수정되었습니다.",
+                    () => {
+                        navigate(`/post/${idx}`);
+                    }
+                );
+            },
+            (error : ErrorDto) => {
+                if (apiManager.handleException(error, navigate, pageName))
+                    return;
+                popupManager.showBadConfirm(
+                    pageName,
+                    error.message,
+                    () => {}
+                );
+            },
+        );
     }
 
     const addImage = (e : any) => {
@@ -116,25 +139,25 @@ function NoticeCreatePage() {
     return (
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
-                <button className="text-xl hover:opacity-80" onClick={() => navigate("/notice")}>
-                    [공지]
+                <button className="text-xl hover:opacity-80" onClick={() => navigate("/post")}>
+                    [게시글]
                 </button>
                 <div className="flex justify-between items-center mb-4">
-                    <input className="grow mr-4 text-2xl" type="text" value={title ?? ""} placeholder="제목을 입력해주세요."
+                    <input className="grow mr-4 text-2xl" type="text" value={title ?? ""}
                            onChange={(e: any) => setTitle(e.target.value)}/>
                     <div className="flex gap-x-1">
                         <button className="border-2 border-gray-200 px-2 rounded-full hover:opacity-80"
                                 onClick={() => {
                                     popupManager.showAsk(
                                         pageName,
-                                        "게시물을 등록하시겠습니까?",
+                                        "수정 사항을 반영하시겠습니까?",
                                         () => {
-                                            create();
+                                            edit();
                                         },
                                         () => {}
                                     );
                                 }}>
-                            게시하기
+                            수정 완료
                         </button>
                     </div>
                 </div>
@@ -146,10 +169,11 @@ function NoticeCreatePage() {
                          }}
                     />
                     <p className="text-gray-500">{authorName}</p>
+                    <p className="text-gray-400">{regDate}</p>
                 </div>
             </div>
             <div>
-                <TextareaAutosize className="w-full mt-4 whitespace-pre-wrap" defaultValue={text ?? ""} placeholder="내용을 입력해주세요."
+                <TextareaAutosize className="w-full mt-4 whitespace-pre-wrap" defaultValue={text ?? ""}
                                   onChange={(e: any) => setText(e.target.value)}>
                 </TextareaAutosize>
             </div>
@@ -196,4 +220,4 @@ function NoticeCreatePage() {
     );
 }
 
-export default NoticeCreatePage;
+export default PostEditPage;

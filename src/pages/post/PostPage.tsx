@@ -5,7 +5,7 @@ import {ErrorDto} from "../../model/dto/ErrorDto";
 import {useNavigate} from "react-router-dom";
 import {accountManager} from "../../utility/AccountManager";
 
-function NoticePage() {
+function PostPage() {
     const [tag, setTag] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const [input, setInput] = useState<string | null>(null);
@@ -33,7 +33,7 @@ function NoticePage() {
             <button
                 className="flex flex-col w-60 pt-4 pl-4 pr-4 p-2 border-2 rounded-2xl cursor-pointer hover:shadow-xl"
                 key={idx}
-                onClick={() => navigate(`/notice/${idx}`)}>
+                onClick={() => navigate(`/post/${idx}`)}>
                 <img className="w-full h-full"
                      src={logo}
                      onError={(e: any) => {
@@ -109,7 +109,7 @@ function NoticePage() {
 
     const loadPosts = (p : number) => {
         apiManager.get(
-            "notice/load/all",
+            "post/load/all",
             {
                 page: (p - 1),
                 count: 15,
@@ -126,7 +126,7 @@ function NoticePage() {
                     models.push(
                         renderPost(
                             dto.idx,
-                            imageManager.getNoticeThumbnailImage(dto.idx),
+                            imageManager.getPostThumbnailImage(dto.idx),
                             dto.title,
                             dto.author_name,
                             dto.reg_date
@@ -183,7 +183,7 @@ function NoticePage() {
                     <div>
                         <div className="flex flex-1 justify-end">
                             <button className="w-fit px-2 py-1 border rounded-full hover:opacity-80"
-                                    onClick={() => navigate("/notice/create")}>
+                                    onClick={() => navigate("/post/create")}>
                                 게시물 등록하기
                             </button>
                         </div>
@@ -210,4 +210,4 @@ function NoticePage() {
     );
 }
 
-export default NoticePage;
+export default PostPage;

@@ -7,8 +7,14 @@ class ImageManager {
     getNoticeThumbnailImage(idx : any) : string {
         return `${apiManager.getURL()}notice/load/image/thumbnail/${idx}`;
     }
+    getPostThumbnailImage(idx : any) : string {
+        return `${apiManager.getURL()}post/load/image/thumbnail/${idx}`;
+    }
     getNoticeImage(idx : any, fileIdx : any) : string {
         return `${apiManager.getURL()}notice/load/image/${idx}/${fileIdx}`;
+    }
+    getPostImage(idx : any, fileIdx : any) : string {
+        return `${apiManager.getURL()}post/load/image/${idx}/${fileIdx}`;
     }
 }
 

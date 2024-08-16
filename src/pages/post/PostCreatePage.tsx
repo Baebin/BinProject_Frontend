@@ -11,8 +11,8 @@ import {popupManager} from "../../utility/PopupManager";
 import {accountManager} from "../../utility/AccountManager";
 import {permissionManager} from "../../utility/PermissionManager";
 
-function NoticeCreatePage() {
-    const pageName = "공지사항 등록";
+function PostCreatePage() {
+    const pageName = "게시글 등록";
 
     const [title, setTitle] = useState<string | null>(null);
     const [text, setText] = useState<string | null>(null);
@@ -27,7 +27,7 @@ function NoticeCreatePage() {
         setAuthorIdx(accountManager.getIdx());
         setAuthorName(accountManager.getName());
 
-        if (accountManager.isUser())
+        if (accountManager.isOffline())
             permissionManager.handleForbidden(navigate, pageName);
     }, []);
 
@@ -38,7 +38,7 @@ function NoticeCreatePage() {
         });
         if (files.length >= 1) {
             apiManager.postFormData(
-                "notice/create/multipart",
+                "post/create/multipart",
                 files,
                 {
                     title: title,
@@ -49,7 +49,7 @@ function NoticeCreatePage() {
                         pageName,
                         "게시물이 등록되었습니다.",
                         () => {
-                            navigate(`/notice`);
+                            navigate(`/post`);
                         }
                     );
                 },
@@ -65,7 +65,7 @@ function NoticeCreatePage() {
             );
         } else {
             apiManager.post(
-                "notice/create",
+                "post/create",
                 {
                     title: title,
                     text: text,
@@ -75,7 +75,7 @@ function NoticeCreatePage() {
                         pageName,
                         "게시물이 등록되었습니다.",
                         () => {
-                            navigate(`/notice`);
+                            navigate(`/post`);
                         }
                     );
                 },
@@ -116,8 +116,8 @@ function NoticeCreatePage() {
     return (
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
-                <button className="text-xl hover:opacity-80" onClick={() => navigate("/notice")}>
-                    [공지]
+                <button className="text-xl hover:opacity-80" onClick={() => navigate("/post")}>
+                    [게시판]
                 </button>
                 <div className="flex justify-between items-center mb-4">
                     <input className="grow mr-4 text-2xl" type="text" value={title ?? ""} placeholder="제목을 입력해주세요."
@@ -196,4 +196,4 @@ function NoticeCreatePage() {
     );
 }
 
-export default NoticeCreatePage;
+export default PostCreatePage;

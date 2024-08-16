@@ -40,7 +40,7 @@ function UserProfile() {
     }, []);
 
     return (
-        <div className="p-4">
+        <div className="place-content-center p-4">
             <div
                 className="flex flex-col items-center p-4 gap-y-2 border-2 border-gray-300 rounded-xl text-xl text-center">
                 <img className="w-40 h-40 rounded-full cursor-pointer hover:shadow-xl"

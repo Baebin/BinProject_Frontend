@@ -11,6 +11,9 @@ class AccountManager {
     isOnline() : boolean {
         return (this.getToken() !== null);
     }
+    isOffline() : boolean {
+        return !this.isOnline();
+    }
     equalsWithIdx(idx : any) : boolean {
         let accountIdx = this.getIdx();
         if (accountIdx !== null && accountIdx.toString() === idx.toString())
