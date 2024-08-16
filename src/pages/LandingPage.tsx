@@ -3,7 +3,7 @@ import {images} from "../utility/ImageManager";
 
 function LandingPage() {
     return (
-        <div className="flex items-center gap-x-10">
+        <div className="flex items-center p-2 gap-x-1">
             <div className="animate-bounce">
                 <img className="w-40 h-fit rounded-full animate-spin" src={images.binBean} alt="logo"/>
                 <p className="text-sm animate-pulse ml-3">유빈콩</p>
