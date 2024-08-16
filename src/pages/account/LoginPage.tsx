@@ -3,6 +3,7 @@ import {apiManager} from "../../utility/ApiManager";
 import {popupManager} from "../../utility/PopupManager";
 import {ErrorDto} from "../../model/dto/ErrorDto";
 import {useNavigate} from "react-router-dom";
+import {accountManager} from "../../utility/AccountManager";
 
 function LoginPage() {
     const [id, setId] = useState<string | null>(null);
@@ -18,9 +19,11 @@ function LoginPage() {
                 "password": pw,
             },
             (res : any) => {
-                localStorage.setItem("idx", res.data.idx);
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("permission", res.data.permission);
+                accountManager.setIdx(res.data.idx);
+                accountManager.setName(res.data.name);
+                accountManager.setToken(res.data.token);
+                accountManager.setPermission(res.data.permission);
+
                 popupManager.showOkayConfirm(
                     "로그인",
                     "인증되었습니다.",
@@ -42,7 +45,7 @@ function LoginPage() {
     };
 
     return (
-        <div>
+        <div className="place-content-center">
             <form className="flex flex-col gap-y-3 p-4 border-2 border-gray-300 rounded-xl text-base"
                   onSubmit={(e) => {
                       e.preventDefault();

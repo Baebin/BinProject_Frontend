@@ -4,6 +4,7 @@ import {popupManager} from "../../utility/PopupManager";
 import {ErrorDto} from "../../model/dto/ErrorDto";
 import {useNavigate} from "react-router-dom";
 import {imageManager, images} from "../../utility/ImageManager";
+import {accountManager} from "../../utility/AccountManager";
 
 function MyProfile() {
     const pageName = "프로필";
@@ -99,6 +100,7 @@ function MyProfile() {
                     },
                     (res: any) => {
                         setName(value);
+                        accountManager.setName(value);
                     },
                     (error: ErrorDto) => {
                         if (apiManager.handleException(error, navigate, pageName))
@@ -164,7 +166,7 @@ function MyProfile() {
     }
 
     return (
-        <div className="p-4">
+        <div className="place-content-center p-4">
             <div
                 className="flex flex-col items-center p-4 gap-y-2 border-2 border-gray-300 rounded-xl text-xl text-center">
                 <img className="w-40 h-40 rounded-full cursor-pointer hover:shadow-xl"

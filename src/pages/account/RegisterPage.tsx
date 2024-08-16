@@ -43,7 +43,7 @@ function RegisterPage() {
     };
 
     return (
-        <div>
+        <div className="place-content-center">
             <form className="flex flex-col p-4 gap-y-1 border-2 border-gray-300 rounded-xl text-base"
                   onSubmit={(e) => {
                       e.preventDefault();

@@ -12,12 +12,13 @@ import NoticePage from "./pages/notice/NoticePage";
 import NoticeDetailPage from "./pages/notice/NoticeDetailPage";
 import NoticeEditPage from "./pages/notice/NoticeEditPage";
 import UserProfile from "./pages/account/UserProfile";
+import NoticeCreatePage from "./pages/notice/NoticeCreatePage";
 
 function App() {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            <div className="flex-1 grid place-content-center overflow-hidden py-5">
+            <div className="flex-1 grid justify-center overflow-hidden py-5">
                 <Routes>
                     <Route>
                         <Route path="/" element={<LandingPage />}></Route>
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/notice" element={<NoticePage />}></Route>
                         <Route path="/notice/:idx" element={<NoticeDetailPage />}></Route>
                         <Route path="/notice/edit/:idx" element={<NoticeEditPage />}></Route>
+                        <Route path="/notice/create" element={<NoticeCreatePage />}></Route>
 
                         <Route path="*" element={<NotFound />}></Route>
                     </Route>

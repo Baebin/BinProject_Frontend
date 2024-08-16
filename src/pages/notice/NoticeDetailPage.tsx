@@ -5,8 +5,11 @@ import {apiManager} from "../../utility/ApiManager";
 import {ErrorDto} from "../../model/dto/ErrorDto";
 import Slider from "react-slick";
 import {accountManager} from "../../utility/AccountManager";
+import {popupManager} from "../../utility/PopupManager";
 
 function NoticeDetailPage() {
+    const pageName = "공지사항";
+
     const {idx} = useParams();
 
     const [title, setTitle] = useState<string | null>(null);
@@ -45,6 +48,40 @@ function NoticeDetailPage() {
         );
     }, []);
 
+    const del = () => {
+        popupManager.showAsk(
+            pageName,
+            "게시물을 삭제하시겠습니까?",
+            () => {
+                apiManager.delete(
+                    "notice/delete",
+                    {
+                        idx: idx,
+                    },
+                    () => {
+                        popupManager.showOkayConfirm(
+                            pageName,
+                            "게시물이 삭제되었습니다.",
+                            () => {
+                                navigate(`/notice`);
+                            }
+                        );
+                    },
+                    (error : ErrorDto) => {
+                        if (apiManager.handleException(error, navigate, pageName))
+                            return;
+                        popupManager.showBadConfirm(
+                            pageName,
+                            error.message,
+                            () => {}
+                        );
+                    },
+                );
+            },
+            () => {}
+        );
+    }
+
     const settings = {
         arrows: false,
         dots: true,
@@ -67,10 +104,16 @@ function NoticeDetailPage() {
                     </p>
                     {
                         accountManager.isAdmin() &&
-                        <button className="border-2 border-gray-200 px-2 rounded-full hover:opacity-80"
-                                onClick={() => navigate(`/notice/edit/${idx}`)}>
-                            게시글 수정
-                        </button>
+                        <div className="flex gap-x-1">
+                            <button className="bg-blue-50 hover:bg-blue-100 border-2 border-gray-200 px-2 rounded-full"
+                                    onClick={() => navigate(`/notice/edit/${idx}`)}>
+                                수정
+                            </button>
+                            <button className="bg-red-50 hover:bg-red-100 border-2 border-gray-200 px-2 rounded-full"
+                                    onClick={() => del()}>
+                                삭제
+                            </button>
+                        </div>
                     }
                 </div>
                 <div className="flex items-center gap-x-2 text-lg">

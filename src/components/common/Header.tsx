@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import {accountManager} from "../../utility/AccountManager";
 
 function Header() {
     const [loginState, setLoginState] = useState(false);
@@ -7,17 +8,9 @@ function Header() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token !== null)
+        if (accountManager.isOnline())
             setLoginState(true);
     });
-
-    const logout = () => {
-        localStorage.removeItem("idx");
-        localStorage.removeItem("token");
-        localStorage.removeItem("permission");
-        setLoginState(false);
-    }
 
     const renderProfileDropdown = () => {
         return (
@@ -34,7 +27,10 @@ function Header() {
                 <ul className="fixed block space-y-2 shadow-lg bg-white rounded-lg max-h-0 overflow-hidden group-hover:opacity-100 group-hover:max-h-[700px] px-6 group-hover:pb-4 group-hover:pt-6 transition-all duration-500">
                     <li className="border-b py-1">
                         <button className="text-base font-semibold text-gray-600 hover:text-blue-500"
-                                onClick={logout}>
+                                onClick={() => {
+                                    accountManager.logout();
+                                    setLoginState(false);
+                                }}>
                             로그아웃
                         </button>
                     </li>
