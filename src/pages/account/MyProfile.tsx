@@ -46,10 +46,10 @@ function MyProfile() {
     const editImage = () => {
         popupManager.showMoreInput(
             pageName,
-            "닉네임 수정",
+            "이미지 수정",
             "file",
             name,
-            "닉네임을 입력해주세요.",
+            "이미지를 입력해주세요.",
             (value: any) => {
                 apiManager.putFormData(
                     "account/edit/profile/image",
