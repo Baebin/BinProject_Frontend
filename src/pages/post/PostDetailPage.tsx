@@ -96,7 +96,7 @@ function PostDetailPage() {
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
                 <button className="text-xl hover:opacity-80" onClick={() => navigate("/post")}>
-                    [공지]
+                    [게시판]
                 </button>
                 <div className="flex justify-between items-center mb-4">
                     <p className="text-2xl">

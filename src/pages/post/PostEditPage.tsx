@@ -140,7 +140,7 @@ function PostEditPage() {
         <div className="w-screen max-w-[700px] p-4">
             <div className="border-b pb-2">
                 <button className="text-xl hover:opacity-80" onClick={() => navigate("/post")}>
-                    [게시글]
+                    [게시판]
                 </button>
                 <div className="flex justify-between items-center mb-4">
                     <input className="grow mr-4 text-2xl" type="text" value={title ?? ""}
