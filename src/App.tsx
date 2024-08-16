@@ -17,6 +17,7 @@ import PostPage from "./pages/post/PostPage";
 import PostEditPage from "./pages/post/PostEditPage";
 import PostDetailPage from "./pages/post/PostDetailPage";
 import PostCreatePage from "./pages/post/PostCreatePage";
+import LoginRedirectPage from "./pages/account/LoginRedirectPage";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/" element={<LandingPage />}></Route>
 
                         <Route path="/login" element={<LoginPage />}></Route>
+                        <Route path="/login/redirect/:token/:name/:permission" element={<LoginRedirectPage />}></Route>
                         <Route path="/register" element={<RegisterPage />}></Route>
 
                         <Route path="/profile" element={<MyProfile />}></Route>

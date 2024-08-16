@@ -179,7 +179,7 @@ function PostPage() {
                     </button>
                 </form>
                 {
-                    accountManager.isAdmin() &&
+                    accountManager.isOnline() &&
                     <div>
                         <div className="flex flex-1 justify-end">
                             <button className="w-fit px-2 py-1 border rounded-full hover:opacity-80"
