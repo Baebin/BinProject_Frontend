@@ -247,14 +247,17 @@ function PostDetailPage() {
                         : <p className="text-gray-500">{"삭제된 댓글입니다."}</p>
                 }
                 <p className="text-sm text-gray-400">{dto.reg_date}</p>
-                <button className="text-sm border px-2 py-1 hover:bg-gray-100 mt-2"
-                        onClick={() => {
-                            if (subCommentWritingFocusIdx === dto.idx)
-                                setSubCommentWritingFocusIdx(null);
-                            else setSubCommentWritingFocusIdx(dto.idx);
-                        }}>
-                    답글
-                </button>
+                {
+                    isParent &&
+                    <button className="text-sm border px-2 py-1 hover:bg-gray-100 mt-2"
+                            onClick={() => {
+                                if (subCommentWritingFocusIdx === dto.idx)
+                                    setSubCommentWritingFocusIdx(null);
+                                else setSubCommentWritingFocusIdx(dto.idx);
+                            }}>
+                        답글
+                    </button>
+                }
             </div>
         );
         if (isParent)
@@ -278,12 +281,12 @@ function PostDetailPage() {
                                         {
                                             renderComment(dto, idx === 0)
                                         }
-                                        {
-                                            subCommentWritingFocusIdx === dto.idx &&
-                                            renderChild(renderCommentWriting(false))
-                                        }
                                     </div>
                                 )
+                            }
+                            {
+                                subCommentWritingFocusIdx === dtos[0].idx &&
+                                renderChild(renderCommentWriting(false))
                             }
                         </div>
                     )
