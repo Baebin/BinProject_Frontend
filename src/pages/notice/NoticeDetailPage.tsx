@@ -19,6 +19,8 @@ function NoticeDetailPage() {
     const [regDate, setRegDate] = useState<string | null>(null);
 
     const [files, setFiles] = useState<number | null>(null);
+    const [viewCount, setViewCount] = useState<number | null>(null);
+
     const [imgUrls, setImgUrls] = useState<string[]>([]);
 
     const navigate = useNavigate();
@@ -38,6 +40,7 @@ function NoticeDetailPage() {
                 setRegDate(dto.reg_date);
 
                 setFiles(dto.files);
+                setViewCount(dto.view_count);
 
                 const urls : string[] = [];
                 for (let i = 0; i < dto.files; i++)
@@ -128,6 +131,7 @@ function NoticeDetailPage() {
                         <p className="text-gray-500">{authorName}</p>
                     </button>
                     <p className="text-gray-400">{regDate}</p>
+                    <p className="flex flex-1 justify-end text-gray-400">조회수: {viewCount}</p>
                 </div>
             </div>
             <div>
