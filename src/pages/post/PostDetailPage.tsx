@@ -25,13 +25,14 @@ function PostDetailPage() {
 
     const [comments, setComments] = useState<any[]>([]);
 
-    const [imgUrls, setImgUrls] = useState<string[]>([]);
-
-    // Etc
     const [likeCount, setLikeCount] = useState<number>(0);
     const [likeState, setLikeState] = useState<boolean>(false);
 
     const [commentCount, setCommentCount] = useState<number>(0);
+
+    const [imgUrls, setImgUrls] = useState<string[]>([]);
+
+    // Etc
     const [commentVisibility, setCommentVisibility] = useState<boolean>(false);
 
     const [commentWritingValue, setCommentWritingValue] = useState<string | null>(null);
@@ -56,6 +57,11 @@ function PostDetailPage() {
 
                 setFiles(dto.files);
                 setViewCount(dto.view_count);
+                setCommentCount(dto.comment_count);
+
+                setLikeCount(dto.like_count);
+                setLikeState(dto.like_state);
+
                 setCommentCount(dto.comment_count);
 
                 const urls : string[] = [];
@@ -292,8 +298,24 @@ function PostDetailPage() {
     }
 
     const toggleLike = () => {
-        setLikeCount(likeCount + (likeState ? -1 : 1));
-        setLikeState(!likeState);
+        apiManager.put(
+            "post/comment/edit/like",
+            {
+                idx: idx,
+                like: !likeState
+            },
+            () => {
+                setLikeCount(likeCount + (likeState ? -1 : 1));
+                setLikeState(!likeState);
+            },
+            (error : ErrorDto) => {
+                popupManager.showBadConfirm(
+                    pageName,
+                    error.message,
+                    () => {}
+                );
+            },
+        );
     }
     const toggleComment = () => {
         setCommentVisibility(!commentVisibility);
