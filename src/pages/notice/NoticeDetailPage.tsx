@@ -102,7 +102,7 @@ function NoticeDetailPage() {
                     [공지]
                 </button>
                 <div className="flex justify-between items-center mb-4">
-                    <p className="text-2xl">
+                    <p className="text-2xl text-gray-700">
                         {title}
                     </p>
                     {
@@ -128,7 +128,7 @@ function NoticeDetailPage() {
                                  e.target.src = images.profileNotFound;
                              }}
                         />
-                        <p className="text-gray-500">{authorName}</p>
+                        <p className="text-gray-600">{authorName}</p>
                     </button>
                     <p className="text-gray-400">{regDate}</p>
                     <p className="flex flex-1 justify-end text-gray-400">조회수: {viewCount}</p>

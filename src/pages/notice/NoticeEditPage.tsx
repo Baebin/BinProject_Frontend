@@ -143,8 +143,9 @@ function NoticeEditPage() {
                     [공지]
                 </button>
                 <div className="flex justify-between items-center mb-4">
-                    <input className="grow mr-4 text-2xl" type="text" value={title ?? ""}
-                           onChange={(e: any) => setTitle(e.target.value)}/>
+                    <p className="text-2xl text-gray-700">
+                        {title}
+                    </p>
                     <div className="flex gap-x-1">
                         <button className="border-2 border-gray-200 px-2 rounded-full hover:opacity-80"
                                 onClick={() => {
@@ -168,7 +169,7 @@ function NoticeEditPage() {
                              e.target.src = images.profileNotFound;
                          }}
                     />
-                    <p className="text-gray-500">{authorName}</p>
+                    <p className="text-gray-600">{authorName}</p>
                     <p className="text-gray-400">{regDate}</p>
                 </div>
             </div>

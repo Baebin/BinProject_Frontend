@@ -81,7 +81,7 @@ function RegisterPage() {
                                }}/>
                     </div>
                 </div>
-                <p className="p-1 mt- border-b text-neutral-500">* 선택 입력 사항</p>
+                <p className="p-1 mt-1 border-b text-neutral-500">* 선택 입력 사항</p>
                 <div className="flex flex-col">
                     <div className="flex flex-col">
                         <label className="p-1">전화번호</label>

@@ -145,7 +145,7 @@ function PostCreatePage() {
                              e.target.src = images.profileNotFound;
                          }}
                     />
-                    <p className="text-gray-500">{authorName}</p>
+                    <p className="text-gray-600">{authorName}</p>
                 </div>
             </div>
             <div>
