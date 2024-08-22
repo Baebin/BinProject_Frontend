@@ -16,7 +16,7 @@ class AccountManager {
     }
     equalsWithIdx(idx : any) : boolean {
         let accountIdx = this.getIdx();
-        if (accountIdx !== null && accountIdx.toString() === idx.toString())
+        if (accountIdx !== null && `${accountIdx}` === `${idx}`)
             return true;
         return false;
     }

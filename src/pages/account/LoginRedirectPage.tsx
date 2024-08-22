@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {accountManager} from "../../utility/AccountManager";
 
 function LoginRedirectPage() {
-    const {token, name, permission} = useParams();
+    const {token, idx, name, permission} = useParams();
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        accountManager.setIdx(`${idx}`);
         accountManager.setName(`${name}`);
         accountManager.setToken(`${token}`);
         accountManager.setPermission(`${permission}`);

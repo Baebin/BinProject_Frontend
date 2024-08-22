@@ -39,6 +39,9 @@ function PostDetailPage() {
     const [subCommentWritingValue, setSubCommentWritingValue] = useState<string | null>(null);
     const [subCommentWritingFocusIdx, setSubCommentWritingFocusIdx] = useState<number | null>(null);
 
+    const [commentEditValue, setCommentEditValue] = useState<string | null>(null);
+    const [commentEditFocusIdx, setCommentEditFocusIdx] = useState<string | null>(null);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -61,8 +64,6 @@ function PostDetailPage() {
 
                 setLikeCount(dto.like_count);
                 setLikeState(dto.like_state);
-
-                setCommentCount(dto.comment_count);
 
                 const urls : string[] = [];
                 for (let i = 0; i < dto.files; i++)
@@ -134,7 +135,37 @@ function PostDetailPage() {
             (res : any) => {
                 refreshComments();
             },
-            (error : ErrorDto) => {}
+            (error : ErrorDto) => {
+                if (apiManager.handleException(error, navigate, pageName))
+                    return;
+                popupManager.showBadConfirm(
+                    pageName,
+                    error.message,
+                    () => {}
+                );
+            }
+        );
+    }
+
+    const editComment = () => {
+        apiManager.put(
+            "post/comment/edit",
+            {
+                idx: commentEditFocusIdx,
+                comment: commentEditValue,
+            },
+            (res: any) => {
+                refreshComments();
+            },
+            (error: ErrorDto) => {
+                if (apiManager.handleException(error, navigate, pageName))
+                    return;
+                popupManager.showBadConfirm(
+                    pageName,
+                    error.message,
+                    () => {}
+                );
+            }
         );
     }
 
@@ -144,10 +175,11 @@ function PostDetailPage() {
             {
                 idx: commentIdx,
             },
-            (res : any) => {
+            (res: any) => {
                 refreshComments();
             },
-            (error : ErrorDto) => {}
+            (error: ErrorDto) => {
+            }
         );
     }
 
@@ -156,12 +188,12 @@ function PostDetailPage() {
             <form className="flex flex-col p-4 gap-y-2 border-2 bg-white">
                 <div className="flex items-center gap-x-2">
                     <img className="w-8 h-8 rounded-full"
-                         src={imageManager.getProfile(authorIdx)}
+                         src={imageManager.getProfile(accountManager.getIdx())}
                          onError={(e: any) => {
                              e.target.src = images.profileNotFound;
                          }}
                     />
-                    <p className="text-gray-600">{authorName}</p>
+                    <p className="text-gray-600">{accountManager.getName()}</p>
                 </div>
                 <TextareaAutosize placeholder="댓글을 입력해주세요."
                                   value={isMain ? (commentWritingValue ?? "") : (subCommentWritingValue ?? "")}
@@ -223,8 +255,28 @@ function PostDetailPage() {
                         </button>
                     </div>
                     {
-                        (dto.state === "ENABLED" && accountManager.equalsWithIdx(authorIdx)) &&
-                        <div className="flex flex-1 justify-end">
+                        (dto.state === "ENABLED" && accountManager.equalsWithIdx(dto.author_idx)) &&
+                        <div className="flex flex-1 justify-end gap-x-1">
+                            <button onClick={() => {
+                                if (dto.idx === commentEditFocusIdx) {
+                                    editComment();
+                                    setCommentEditValue(null);
+                                    setCommentEditFocusIdx(null);
+                                } else {
+                                    setCommentEditValue(dto.comment);
+                                    setCommentEditFocusIdx(dto.idx);
+                                }
+                            }}>
+                                {
+                                    isParent ?
+                                        <p className="border px-2 py-1 hover:bg-gray-100">
+                                            수정
+                                        </p>
+                                        : <p className="border px-2 py-1 hover:bg-gray-200">
+                                            수정
+                                        </p>
+                                }
+                            </button>
                             <button onClick={() => {
                                 deleteComment(dto.idx);
                             }}>
@@ -243,8 +295,22 @@ function PostDetailPage() {
                 </div>
                 {
                     dto.state === "ENABLED" ?
-                        <p className="text-gray-700">{dto.comment}</p>
+                        (
+                            dto.idx === commentEditFocusIdx ?
+                                <TextareaAutosize className="w-full p-2" placeholder="댓글을 입력해주세요."
+                                                  value={commentEditValue ?? ""}
+                                                  required
+                                                  onChange={(e) => {
+                                                      setCommentEditValue(e.target.value);
+                                                  }}
+                                />
+                                : <p className="text-gray-700">{dto.comment}</p>
+                        )
                         : <p className="text-gray-500">{"삭제된 댓글입니다."}</p>
+                }
+                {
+                    !!dto.edited_date && dto.state === "ENABLED" &&
+                    <p className="text-sm text-gray-500">(수정됨)</p>
                 }
                 <p className="text-sm text-gray-400">{dto.reg_date}</p>
                 {
@@ -345,7 +411,7 @@ function PostDetailPage() {
                         {title}
                     </p>
                     {
-                        accountManager.isAdmin() &&
+                        accountManager.equalsWithIdx(authorIdx) &&
                         <div className="flex gap-x-1">
                             <button className="bg-blue-50 hover:bg-blue-100 border-2 border-gray-200 px-2 rounded-full"
                                     onClick={() => navigate(`/post/edit/${idx}`)}>

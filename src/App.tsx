@@ -29,7 +29,7 @@ function App() {
                         <Route path="/" element={<LandingPage />}></Route>
 
                         <Route path="/login" element={<LoginPage />}></Route>
-                        <Route path="/login/redirect/:token/:name/:permission" element={<LoginRedirectPage />}></Route>
+                        <Route path="/login/redirect/:token/:idx/:name/:permission" element={<LoginRedirectPage />}></Route>
                         <Route path="/register" element={<RegisterPage />}></Route>
 
                         <Route path="/profile" element={<MyProfile />}></Route>

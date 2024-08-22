@@ -129,7 +129,7 @@ function NoticePage() {
                             imageManager.getNoticeThumbnailImage(dto.idx),
                             dto.title,
                             dto.author_name,
-                            dto.reg_date
+                            dto.reg_date,
                         )
                     );
                     console.log(res.data[idx]);
@@ -162,7 +162,7 @@ function NoticePage() {
 
     return (
         <div className="flex flex-col justify-between gap-y-5">
-            <div className="sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px] xl:max-w-[1200px] flex flex-col gap-y-2">
+            <div className="w-screen sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px] xl:max-w-[1200px] flex flex-col gap-y-2">
                 <form className="flex border rounded-l-full overflow-hidden"
                       onSubmit={(e) => {
                           e.preventDefault();
