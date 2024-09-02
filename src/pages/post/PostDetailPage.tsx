@@ -195,7 +195,7 @@ function PostDetailPage() {
                     />
                     <p className="text-gray-600">{accountManager.getName()}</p>
                 </div>
-                <TextareaAutosize placeholder="댓글을 입력해주세요."
+                <TextareaAutosize placeholder={ accountManager.isOnline() ? "댓글을 입력해주세요." : "로그인이 필요합니다." }
                                   value={isMain ? (commentWritingValue ?? "") : (subCommentWritingValue ?? "")}
                                   required
                                   onChange={(e: any) => {
