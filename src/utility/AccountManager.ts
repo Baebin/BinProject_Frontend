@@ -25,7 +25,7 @@ class AccountManager {
         return localStorage.getItem("idx");
     }
     getName() : string | null {
-        return localStorage.getItem("name") ?? "알수없음";
+        return localStorage.getItem("name") ?? "아기밥풀";
     }
     getToken() : string | null {
         return localStorage.getItem("token");
